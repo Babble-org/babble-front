@@ -30,7 +30,7 @@ const LogoBox = styled.View`
   align-items: center;
 `;
 const LogoBtn = styled.Pressable``;
-const LogoBtnOpactiy = styled.TouchableOpacity``;
+const LogoBtnOpacity = styled.TouchableOpacity``;
 
 const MainHeader = ({ mainLogoOnPress, profileOnPress }: MainHeaderProps) => {
   // SafeAreaInsets를 가져와 HeaderContainer에 적용.
@@ -45,9 +45,9 @@ const MainHeader = ({ mainLogoOnPress, profileOnPress }: MainHeaderProps) => {
         </LogoBtn>
       </LogoBox>
       <LogoBox>
-        <LogoBtnOpactiy onPress={profileOnPress}>
+        <LogoBtnOpacity onPress={profileOnPress}>
           <Icon.ProfileIcon height={25} width={25} color={"#000"} />
-        </LogoBtnOpactiy>
+        </LogoBtnOpacity>
       </LogoBox>
     </HeaderContainer>
   );
