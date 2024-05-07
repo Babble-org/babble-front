@@ -10,8 +10,8 @@ interface Insets {
 }
 
 interface MainHeaderProps {
-  MainLogoPress(): void;
-  ProfilePress(): void;
+  mainLogoOnPress: void;
+  profileOnPress: void;
 }
 
 const HeaderContainer = styled.View`
@@ -32,7 +32,7 @@ const LogoBox = styled.View`
 const LogoBtn = styled.Pressable``;
 const LogoBtnOpactiy = styled.TouchableOpacity``;
 
-const MainHeader = ({ MainLogoPress, ProfilePress }: MainHeaderProps) => {
+const MainHeader = ({ mainLogoOnPress, profileOnPress }: MainHeaderProps) => {
   // SafeAreaInsets를 가져와 HeaderContainer에 적용.
   const insets: Insets = useSafeAreaInsets();
 
@@ -40,12 +40,12 @@ const MainHeader = ({ MainLogoPress, ProfilePress }: MainHeaderProps) => {
     <HeaderContainer insets={insets}>
       <LogoBox>{/**TODO: 비우기 or 설정 넣기**/}</LogoBox>
       <LogoBox>
-        <LogoBtn onPress={MainLogoPress}>
+        <LogoBtn onPress={mainLogoOnPress}>
           <Icon.BabbleIcon height={50} width={50} color={"#000"} />
         </LogoBtn>
       </LogoBox>
       <LogoBox>
-        <LogoBtnOpactiy onPress={ProfilePress}>
+        <LogoBtnOpactiy onPress={profileOnPress}>
           <Icon.ProfileIcon height={25} width={25} color={"#000"} />
         </LogoBtnOpactiy>
       </LogoBox>
