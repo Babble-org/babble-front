@@ -1,13 +1,8 @@
 import styled from "styled-components/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "../../../utils/icon";
-
-interface Insets {
-  bottom: number;
-  top: number;
-  left: number;
-  right: number;
-}
+import { Insets } from "../../../utils";
+import { useContext } from "react";
+import { InsetsContext } from "../../../utils/context";
 
 const HeaderContainer = styled.View`
   flex-direction: row;
@@ -26,7 +21,7 @@ const LogoBox = styled.View`
 `;
 
 const RegisterHeader = () => {
-  const insets: Insets = useSafeAreaInsets();
+  const { insets } = useContext(InsetsContext);
 
   return (
     <HeaderContainer insets={insets}>
