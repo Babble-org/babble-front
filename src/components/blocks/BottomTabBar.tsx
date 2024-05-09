@@ -15,7 +15,7 @@ const TabContainer = styled.View`
   padding: 0 30px;
   padding-bottom: ${(props: { insets: Insets }) => props.insets.bottom}px;
 `;
-const LogoBox = styled.View`
+const LogoBox = styled.TouchableOpacity`
   width: 50px;
   height: 50px;
   justify-content: center;
@@ -38,7 +38,7 @@ const HideBox = styled.View`
   position: absolute;
   bottom: -20px;
 `;
-const BlueBox = styled.View`
+const BlueBox = styled.TouchableOpacity`
   width: 60px;
   height: 60px;
   border-radius: 30px;
