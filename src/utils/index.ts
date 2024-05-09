@@ -12,3 +12,10 @@ export interface MainHeaderProps {
   mainLogoOnPress: void;
   profileOnPress: void;
 }
+export interface IconProps {
+  height?: number;
+  width?: number;
+  size?: number;
+  color?: string;
+  outline?: boolean;
+}
