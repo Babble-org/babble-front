@@ -47,12 +47,12 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider onLayout={onLayoutRootView}>
-      <InsetsContext.Provider value={{ insets, setInsets }}>
-        <QueryClientProvider client={queryClient}>
+    <InsetsContext.Provider value={{ insets, setInsets }}>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider onLayout={onLayoutRootView}>
           <Root></Root>
-        </QueryClientProvider>
-      </InsetsContext.Provider>
-    </SafeAreaProvider>
+        </SafeAreaProvider>
+      </QueryClientProvider>
+    </InsetsContext.Provider>
   );
 }
