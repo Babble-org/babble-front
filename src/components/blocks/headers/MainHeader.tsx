@@ -1,18 +1,8 @@
 import styled from "styled-components/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "../../../utils/icon";
-
-interface Insets {
-  bottom: number;
-  top: number;
-  left: number;
-  right: number;
-}
-
-interface MainHeaderProps {
-  mainLogoOnPress: void;
-  profileOnPress: void;
-}
+import { useContext } from "react";
+import { InsetsContext } from "../../../utils/context";
+import { Insets, MainHeaderProps } from "../../../utils";
 
 const HeaderContainer = styled.View`
   flex-direction: row;
@@ -33,8 +23,7 @@ const LogoBtn = styled.Pressable``;
 const LogoBtnOpacity = styled.TouchableOpacity``;
 
 const MainHeader = ({ mainLogoOnPress, profileOnPress }: MainHeaderProps) => {
-  // SafeAreaInsets를 가져와 HeaderContainer에 적용.
-  const insets: Insets = useSafeAreaInsets();
+  const { insets } = useContext(InsetsContext);
 
   return (
     <HeaderContainer insets={insets}>

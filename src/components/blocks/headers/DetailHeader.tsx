@@ -1,12 +1,7 @@
 import styled from "styled-components/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-interface Insets {
-  bottom: number;
-  top: number;
-  left: number;
-  right: number;
-}
+import { useContext } from "react";
+import { InsetsContext } from "../../../utils/context";
+import { Insets } from "../../../utils";
 
 const HeaderContainer = styled.View`
   flex-direction: row;
@@ -24,7 +19,7 @@ const Title = styled.Text`
 `;
 
 const DetailHeader = ({ title }: { title: string }) => {
-  const insets: Insets = useSafeAreaInsets();
+  const { insets } = useContext(InsetsContext);
 
   return (
     <HeaderContainer insets={insets}>
