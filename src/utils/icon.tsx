@@ -1,6 +1,7 @@
 import { WithLocalSvg } from "react-native-svg/css";
 import BabbleIconSVG from "../../assets/svg/babble_logo.svg";
 import ProfileIconSVG from "../../assets/svg/profile.svg";
+import BabbleTextSVG from "../../assets/svg/babble_text.svg";
 import { IconProps } from "./index";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -71,10 +72,21 @@ const MicIcon = ({ size, color, outline }: IconProps) => {
     />
   );
 };
+const BabbleText = ({ height, width, color }: IconProps) => {
+  return (
+    <WithLocalSvg
+      asset={BabbleTextSVG}
+      height={height}
+      width={width}
+      fill={color}
+    />
+  );
+};
 
 declare var Icon: any;
 export default Icon = {
   BabbleIcon,
+  BabbleText,
   ProfileIcon,
   MailIcon,
   HomeIcon,
