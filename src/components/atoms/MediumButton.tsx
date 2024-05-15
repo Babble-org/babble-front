@@ -10,8 +10,8 @@ const BtnContainer = styled.TouchableOpacity`
 `;
 const Text = styled.Text`
   color: #fff;
-  font-size: 20px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
 `;
 
 const MediumButton = ({ text, onPress }: { text: string; onPress: any }) => {
