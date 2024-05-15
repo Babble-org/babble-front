@@ -1,9 +1,10 @@
 import styled from "styled-components/native";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { InsetsContext } from "../../utils/context";
 import { Insets } from "../../utils";
 import Icon from "../../utils/icon";
 import { Shadow } from "react-native-shadow-2";
+import { useNavigation } from "@react-navigation/native";
 
 const TabContainer = styled.View`
   width: 100%;
@@ -48,15 +49,24 @@ const BlueBox = styled.TouchableOpacity`
 `;
 
 const BottomTabBar = () => {
+  const navigation = useNavigation();
+
+  const [curScreen, setCurScreen] = useState("Home");
   const { insets } = useContext(InsetsContext);
+
+  const NavigateBTnOnPress = (screenName: string) => {
+    // @ts-ignore
+    navigation.navigate(screenName);
+    setCurScreen(screenName);
+  };
   return (
     <Shadow>
       <TabContainer insets={insets}>
-        <LogoBox>
-          <Icon.HomeIcon size={35} outline={false} />
+        <LogoBox onPress={() => NavigateBTnOnPress("Home")}>
+          <Icon.HomeIcon size={35} outline={curScreen != "Home"} />
         </LogoBox>
-        <LogoBox>
-          <Icon.SearchIcon size={35} outline={true} />
+        <LogoBox onPress={() => NavigateBTnOnPress("Search")}>
+          <Icon.SearchIcon size={35} outline={curScreen != "Search"} />
         </LogoBox>
         <Shadow offset={[0, -15]} style={{ borderRadius: 35 }}>
           <MicLogoBox>
@@ -66,11 +76,11 @@ const BottomTabBar = () => {
             </BlueBox>
           </MicLogoBox>
         </Shadow>
-        <LogoBox>
-          <Icon.HeartIcon size={35} outline={true} />
+        <LogoBox onPress={() => NavigateBTnOnPress("Notification")}>
+          <Icon.HeartIcon size={35} outline={curScreen != "Notification"} />
         </LogoBox>
-        <LogoBox>
-          <Icon.MailIcon size={35} outline={true} />
+        <LogoBox onPress={() => NavigateBTnOnPress("Message")}>
+          <Icon.MailIcon size={35} outline={curScreen != "Message"} />
         </LogoBox>
       </TabContainer>
     </Shadow>
