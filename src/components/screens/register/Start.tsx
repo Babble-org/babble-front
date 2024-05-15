@@ -20,7 +20,7 @@ const LowerSection = styled.View`
 const LogoBox = styled.View``;
 const BtnBox = styled.View``;
 
-const StartPage = ({ navigation }: { navigation: any }) => {
+const Start = ({ navigation }: { navigation: any }) => {
   return (
     <Container>
       <UpperSection>
@@ -41,4 +41,4 @@ const StartPage = ({ navigation }: { navigation: any }) => {
   );
 };
 
-export default StartPage;
+export default Start;

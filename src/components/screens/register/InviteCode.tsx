@@ -21,7 +21,7 @@ const BtnContainer = styled.View`
   align-items: center;
   justify-content: center;
 `;
-const InviteCodePage = () => {
+const InviteCode = ({ navigation }: { navigation: any }) => {
   return (
     <Container>
       <RegisterHeader></RegisterHeader>
@@ -29,11 +29,14 @@ const InviteCodePage = () => {
         <Text>초대코드 입력하기</Text>
         <InputBox placeholder={"초대코드 입력"}></InputBox>
         <BtnContainer>
-          <MediumButton text={"다음"} onPress={() => null} />
+          <MediumButton
+            text={"다음"}
+            onPress={() => navigation.navigate("Register")}
+          />
         </BtnContainer>
       </ContentWrap>
     </Container>
   );
 };
 
-export default InviteCodePage;
+export default InviteCode;
