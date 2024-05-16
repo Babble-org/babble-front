@@ -4,13 +4,14 @@ import InputBox from "../../atoms/InputBox";
 import MediumButton from "../../atoms/MediumButton";
 import { useEffect, useState } from "react";
 import userApi from "../../../utils/api";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
   padding: 0 30px;
 `;
-const ContentWrap = styled.View`
+const ContentWrap = styled.ScrollView`
   margin-top: 20px;
 `;
 const Text = styled.Text`
@@ -26,6 +27,22 @@ const BtnContainer = styled.View`
 const ValidateText = styled.Text`
   color: #a0a0a0;
 `;
+const PressableInput = styled.Pressable`
+  width: 100%;
+  height: 40px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${(props: { opened: boolean }) =>
+    props.opened ? "#5351c9" : "#d9d9d9"};
+  margin: 10px 0;
+`;
+const Placeholder = styled.Text`
+  color: #a0a0a0;
+  font-size: 14px;
+  margin-top: 10px;
+`;
+const InputText = styled(Placeholder)`
+  color: #000;
+`;
 
 const Register = ({ navigation }: { navigation: any }) => {
   const [id, setId] = useState<string>("");
@@ -33,15 +50,25 @@ const Register = ({ navigation }: { navigation: any }) => {
   const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [isIdAvailable, setIsIdAvailable] = useState<boolean>(false);
-  const [passwordValid, setPasswordValid] = useState<number>(0);
+  const [passwordValid, setPasswordValid] = useState<number>(-1);
   const [isPasswordMatched, setIsPasswordMatched] = useState<boolean>(false);
+  const [dateOpen, setDateOpen] = useState<boolean>(false);
+  const [date, setDate] = useState<Date>(new Date());
+  const [dateChanged, setDateChanged] = useState<boolean>(false);
+
+  let formComplete: boolean =
+    isIdAvailable &&
+    isPasswordMatched &&
+    passwordValid == 0 &&
+    name != null &&
+    dateChanged;
 
   // 아이디 중복 체크
   useEffect(() => {
     const checkId = async () => {
-      if (id.length > 1) {
-        const isIdAvailable = await userApi.check_username(id);
-        setIsIdAvailable(isIdAvailable);
+      if (id.length >= 4) {
+        //const isIdAvailable = await userApi.check_username(id);
+        setIsIdAvailable(true);
       }
     };
     checkId();
@@ -53,12 +80,12 @@ const Register = ({ navigation }: { navigation: any }) => {
 
   useEffect(() => {
     setIsPasswordMatched(password === passwordCheck);
-  }, [passwordCheck]);
+  }, [passwordCheck, password]);
 
   // 비밀번호 유효성 검사
   const validatePassword = (password: string): number => {
     if (!password) {
-      return 0;
+      return -1;
     }
     // 패스워드 길이 확인
     if (password.length < 8) {
@@ -85,6 +112,13 @@ const Register = ({ navigation }: { navigation: any }) => {
     // 모든 검사를 통과한 경우
     return 0;
   };
+  const onChange = (event: any, selectedDate: Date | undefined) => {
+    const currentDate = selectedDate;
+    setDateChanged(true);
+    if (currentDate) {
+      setDate(currentDate);
+    }
+  };
 
   return (
     <Container>
@@ -95,18 +129,24 @@ const Register = ({ navigation }: { navigation: any }) => {
           placeholder={"아이디"}
           onChangeText={setId}
           value={id}
+          isValidate={isIdAvailable}
         ></InputBox>
-        {id && id.length < 4 ? (
-          <ValidateText>아이디는 최소 4글자 이상이어야 합니다.</ValidateText>
-        ) : !isIdAvailable ? (
-          <ValidateText>아이디가 유효하지 않습니다.</ValidateText>
-        ) : null}
+        {id && !isIdAvailable && (
+          <ValidateText>
+            {id.length < 4
+              ? "아이디는 최소 4글자 이상이어야 합니다."
+              : !isIdAvailable
+                ? "아이디가 유효하지 않습니다."
+                : null}
+          </ValidateText>
+        )}
         <InputBox
           placeholder={"비밀번호"}
           onChangeText={setPassword}
           value={password}
+          isValidate={passwordValid === 0}
         ></InputBox>
-        {passwordValid != 0 && (
+        {password && (
           <ValidateText>
             {passwordValid === 1
               ? "패스워드는 최소 8자 이상이어야 합니다."
@@ -125,6 +165,7 @@ const Register = ({ navigation }: { navigation: any }) => {
           placeholder={"비밀번호 확인"}
           onChangeText={setPasswordCheck}
           value={passwordCheck}
+          isValidate={isPasswordMatched}
         ></InputBox>
         {!isPasswordMatched && passwordCheck && (
           <ValidateText>비밀번호가 맞지 않습니다.</ValidateText>
@@ -134,14 +175,26 @@ const Register = ({ navigation }: { navigation: any }) => {
           onChangeText={setName}
           value={name}
         ></InputBox>
-        <InputBox placeholder={"생년월일"}></InputBox>
-        <InputBox placeholder={"성별"}></InputBox>
+        <PressableInput
+          onPress={() => setDateOpen((prev) => !prev)}
+          opened={dateOpen}
+        >
+          {dateChanged ? (
+            <InputText>{date.toLocaleDateString()}</InputText>
+          ) : (
+            <Placeholder>생년월일</Placeholder>
+          )}
+        </PressableInput>
+        {dateOpen && (
+          <DateTimePicker value={date} display="spinner" onChange={onChange} />
+        )}
         <BtnContainer>
           <MediumButton
             text={"다음"}
-            onPress={() =>
+            onPress={() => () =>
               navigation.navigate("BottomTabs", { screen: "Home" })
             }
+            enable={formComplete}
           />
         </BtnContainer>
       </ContentWrap>
