@@ -1,10 +1,11 @@
 import styled from "styled-components/native";
 import { TouchableOpacityProps } from "react-native";
+import colors from "../../utils/color";
 
 const BtnContainer = styled.TouchableOpacity`
   width: 100%;
   height: 30px;
-  background-color: #5351c9;
+  background-color: ${colors.MainColor};
   border-radius: 30px;
   align-items: center;
   justify-content: center;
