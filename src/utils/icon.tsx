@@ -147,4 +147,5 @@ export default Icon = {
   BookmarkIcon,
   ShareIcon,
   MoreIcon,
+  SettingIcon,
 };
