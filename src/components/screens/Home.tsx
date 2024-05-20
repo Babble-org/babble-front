@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
 import axios from "axios";
 import MainHeader from "../blocks/headers/MainHeader";
+import Babb from "../blocks/Babb";
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
@@ -15,18 +16,13 @@ const Home = () => {
         mainLogoOnPress={undefined}
         profileOnPress={undefined}
       ></MainHeader>
-      <Text>Home</Text>
+      <Babb></Babb>
       <Button
         title={"msw test"}
         onPress={() => {
           axios.get("http://localhost:8081/").then((res) => {
             console.log(res.data);
           });
-          // fetch("http://localhost:8081/").then((res) => {
-          //   res.json().then((data) => {
-          //     console.log(data);
-          //   });
-          // });
         }}
       />
     </Container>
