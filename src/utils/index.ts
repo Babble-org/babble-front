@@ -19,3 +19,9 @@ export interface IconProps {
   color?: string;
   outline?: boolean;
 }
+export interface BabbProps {
+  id?: string;
+  nick_name: string;
+  content: string;
+  inserted_at: string;
+}
