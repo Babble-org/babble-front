@@ -1,34 +1,50 @@
 import styled from "styled-components/native";
-import axios from "axios";
 import MainHeader from "../blocks/headers/MainHeader";
+import Babb from "../blocks/Babb";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../utils/api";
+import { BabbProps } from "../../utils";
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
 `;
-const Text = styled.Text``;
-const Button = styled.Button``;
+const ContentContainer = styled.FlatList``;
 
 const Home = () => {
+  const BabbData = useQuery({ queryKey: ["babbs"], queryFn: api.getBabb });
+
   return (
     <Container>
       <MainHeader
         mainLogoOnPress={undefined}
         profileOnPress={undefined}
       ></MainHeader>
-      <Text>Home</Text>
-      <Button
-        title={"msw test"}
-        onPress={() => {
-          axios.get("http://localhost:8081/").then((res) => {
-            console.log(res.data);
-          });
-          // fetch("http://localhost:8081/").then((res) => {
-          //   res.json().then((data) => {
-          //     console.log(data);
-          //   });
-          // });
-        }}
-      />
+      {!BabbData.isLoading && (
+        <ContentContainer
+          data={BabbData.data}
+          renderItem={({ item: babb }: { item: BabbProps }) => (
+            <Babb
+              key={babb.id}
+              nick_name={babb.nick_name}
+              content={babb.content}
+              inserted_at={babb.inserted_at}
+              img={babb.img}
+            />
+          )}
+        ></ContentContainer>
+      )}
+      {/* {!BabbData.isLoading &&
+        BabbData.data.map((babb: BabbProps) => {
+          return (
+            <Babb
+              key={babb.id}
+              nick_name={babb.nick_name}
+              content={babb.content}
+              inserted_at={babb.inserted_at}
+              img={babb.img}
+            ></Babb>
+          );
+        })} */}
     </Container>
   );
 };

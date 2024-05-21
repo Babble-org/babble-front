@@ -3,10 +3,10 @@ import { TouchableOpacityProps } from "react-native";
 import colors from "../../utils/color";
 
 const BtnContainer = styled.TouchableOpacity`
-  width: 100%;
-  height: 30px;
+  width: 50px;
+  height: 20px;
   background-color: ${colors.MainColor};
-  border-radius: 30px;
+  border-radius: 10px;
   align-items: center;
   justify-content: center;
   opacity: ${(props: { disabled: boolean }) => (props.disabled ? 0.5 : 1)};
@@ -17,7 +17,7 @@ const Text = styled.Text`
   font-weight: 500;
 `;
 
-const MediumButton = ({
+const SmallButton = ({
   text,
   onPress,
   fontSize,
@@ -32,9 +32,9 @@ const MediumButton = ({
       onPress={onPress}
       disabled={enable === undefined ? false : !enable}
     >
-      <Text fontSize={fontSize ? fontSize : 18}>{text}</Text>
+      <Text fontSize={fontSize ? fontSize : 13}>{text}</Text>
     </BtnContainer>
   );
 };
 
-export default MediumButton;
+export default SmallButton;

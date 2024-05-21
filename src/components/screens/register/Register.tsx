@@ -3,7 +3,7 @@ import RegisterHeader from "../../blocks/headers/RegisterHeader";
 import InputBox from "../../atoms/InputBox";
 import MediumButton from "../../atoms/MediumButton";
 import { useEffect, useState } from "react";
-import userApi from "../../../utils/api";
+import api from "../../../utils/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const Container = styled.View`
@@ -67,7 +67,7 @@ const Register = ({ navigation }: { navigation: any }) => {
   useEffect(() => {
     const checkId = async () => {
       if (id.length >= 4) {
-        //const isIdAvailable = await userApi.check_username(id);
+        //const isIdAvailable = await api.check_username(id);
         setIsIdAvailable(true);
       }
     };

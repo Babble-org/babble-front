@@ -4,6 +4,7 @@ import ProfileIconSVG from "../../assets/svg/profile.svg";
 import BabbleTextSVG from "../../assets/svg/babble_text.svg";
 import { IconProps } from "./index";
 import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 const BabbleIcon = ({ height, width, color }: IconProps) => {
   return (
@@ -82,6 +83,54 @@ const BabbleText = ({ height, width, color }: IconProps) => {
     />
   );
 };
+const ChatBoxIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "chatbox-outline" : "chatbox"}
+      size={size}
+      color={color}
+    />
+  );
+};
+const RepeatIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "repeat-outline" : "repeat"}
+      size={size}
+      color={color}
+    />
+  );
+};
+const BookmarkIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "bookmark-outline" : "bookmark"}
+      size={size}
+      color={color}
+    />
+  );
+};
+const ShareIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "share-outline" : "share"}
+      size={size}
+      color={color}
+    />
+  );
+};
+const MoreIcon = ({ size, color }: IconProps) => {
+  return <Feather name="more-horizontal" size={size} color={color} />;
+};
+const SettingIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "settings-outline" : "settings"}
+      size={size}
+      color={color}
+    />
+  );
+};
 
 declare var Icon: any;
 export default Icon = {
@@ -93,4 +142,10 @@ export default Icon = {
   SearchIcon,
   HeartIcon,
   MicIcon,
+  ChatBoxIcon,
+  RepeatIcon,
+  BookmarkIcon,
+  ShareIcon,
+  MoreIcon,
+  SettingIcon,
 };
