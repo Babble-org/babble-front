@@ -9,7 +9,7 @@ import ImageViewer from "./ImageViewer";
 const BabbContainer = styled.View`
   flex-direction: row;
   justify-content: flex-start;
-  margin: 10px 20px;
+  margin: 15px 20px;
 `;
 const ProfileView = styled.View`
   width: 50px;
