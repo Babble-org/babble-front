@@ -26,4 +26,5 @@ export interface BabbProps {
   content: string;
   inserted_at: string;
   img?: string[] | undefined;
+  comment?: object[] | undefined;
 }
