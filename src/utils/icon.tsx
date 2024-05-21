@@ -131,6 +131,24 @@ const SettingIcon = ({ size, color, outline }: IconProps) => {
     />
   );
 };
+const PlusIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "add-outline" : "add"}
+      size={size}
+      color={color}
+    />
+  );
+};
+const MenuIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "menu-outline" : "menu"}
+      size={size}
+      color={color}
+    />
+  );
+};
 
 declare var Icon: any;
 export default Icon = {
@@ -148,4 +166,6 @@ export default Icon = {
   ShareIcon,
   MoreIcon,
   SettingIcon,
+  PlusIcon,
+  MenuIcon,
 };
