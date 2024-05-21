@@ -13,6 +13,32 @@ export const handlers = [
           "https://picsum.photos/200/300",
           "https://picsum.photos/200/300",
         ],
+        comment: [
+          {
+            id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d312d",
+            nick_name: "박건태",
+            inserted_at: "2024-05-20T12:34:55Z",
+            content: "안녕하세요. 저는 박건태입니다.1",
+          },
+          {
+            id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3web3d",
+            nick_name: "박건태",
+            inserted_at: "2024-05-20T12:34:55Z",
+            content: "안녕하세요. 저는 박건태입니다.2",
+          },
+          {
+            id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9aab3d3b3d",
+            nick_name: "박건태",
+            inserted_at: "2024-05-20T12:34:55Z",
+            content: "안녕하세요. 저는 박건태입니다.3",
+          },
+          {
+            id: "c7b3d8e0-5e0b-4b0f-8b3a-3bfg4b3d3b3d",
+            nick_name: "박건태",
+            inserted_at: "2024-05-20T12:34:55Z",
+            content: "안녕하세요. 저는 박건태입니다.4",
+          },
+        ],
       },
       {
         id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3e",
