@@ -11,6 +11,7 @@ export interface InsetsContextInterface {
 export interface MainHeaderProps {
   mainLogoOnPress: void;
   profileOnPress: void;
+  menuOnPress: void;
 }
 export interface IconProps {
   height?: number;

@@ -18,6 +18,7 @@ const Home = () => {
       <MainHeader
         mainLogoOnPress={undefined}
         profileOnPress={undefined}
+        menuOnPress={undefined}
       ></MainHeader>
       {!BabbData.isLoading && (
         <ContentContainer
@@ -33,18 +34,6 @@ const Home = () => {
           )}
         ></ContentContainer>
       )}
-      {/* {!BabbData.isLoading &&
-        BabbData.data.map((babb: BabbProps) => {
-          return (
-            <Babb
-              key={babb.id}
-              nick_name={babb.nick_name}
-              content={babb.content}
-              inserted_at={babb.inserted_at}
-              img={babb.img}
-            ></Babb>
-          );
-        })} */}
     </Container>
   );
 };

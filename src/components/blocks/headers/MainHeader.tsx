@@ -11,23 +11,31 @@ const HeaderContainer = styled.View`
   background-color: white;
   margin-top: ${(props: { insets: Insets }) => props.insets.top}px;
   height: 60px;
-  padding: 0 20px;
+  padding: 0 25px;
 `;
 const LogoBox = styled.View`
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   justify-content: center;
   align-items: center;
 `;
 const LogoBtn = styled.Pressable``;
 const LogoBtnOpacity = styled.TouchableOpacity``;
 
-const MainHeader = ({ mainLogoOnPress, profileOnPress }: MainHeaderProps) => {
+const MainHeader = ({
+  mainLogoOnPress,
+  profileOnPress,
+  menuOnPress,
+}: MainHeaderProps) => {
   const { insets } = useContext(InsetsContext);
 
   return (
     <HeaderContainer insets={insets}>
-      <LogoBox>{/**TODO: 비우기 or 설정 넣기**/}</LogoBox>
+      <LogoBox>
+        <LogoBtnOpacity onPress={profileOnPress}>
+          <Icon.MenuIcon size={30} color={"#000"} />
+        </LogoBtnOpacity>
+      </LogoBox>
       <LogoBox>
         <LogoBtn onPress={mainLogoOnPress}>
           <Icon.BabbleIcon height={50} width={50} color={"#000"} />
@@ -35,7 +43,7 @@ const MainHeader = ({ mainLogoOnPress, profileOnPress }: MainHeaderProps) => {
       </LogoBox>
       <LogoBox>
         <LogoBtnOpacity onPress={profileOnPress}>
-          <Icon.ProfileIcon height={25} width={25} color={"#000"} />
+          <Icon.PlusIcon size={33} color={"#000"} />
         </LogoBtnOpacity>
       </LogoBox>
     </HeaderContainer>

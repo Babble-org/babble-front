@@ -5,6 +5,7 @@ import BabbleTextSVG from "../../assets/svg/babble_text.svg";
 import { IconProps } from "./index";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 const BabbleIcon = ({ height, width, color }: IconProps) => {
   return (
@@ -131,6 +132,36 @@ const SettingIcon = ({ size, color, outline }: IconProps) => {
     />
   );
 };
+const PlusIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "add-outline" : "add"}
+      size={size}
+      color={color}
+    />
+  );
+};
+const MenuIcon = ({ size, color, outline }: IconProps) => {
+  return (
+    <Ionicons
+      name={outline ? "menu-outline" : "menu"}
+      size={size}
+      color={color}
+    />
+  );
+};
+const SendIcon = ({ size, color }: IconProps) => {
+  return <Feather name={"send"} size={size} color={color} />;
+};
+const TrashIcon = ({ size, color }: IconProps) => {
+  return <Feather name={"trash-2"} size={size} color={color} />;
+};
+const RepeatIcon2 = ({ size, color }: IconProps) => {
+  return <Feather name={"repeat"} size={size} color={color} />;
+};
+const PlayIcon = ({ size, color }: IconProps) => {
+  return <FontAwesome6 name={"play"} size={size} color={color} />;
+};
 
 declare var Icon: any;
 export default Icon = {
@@ -148,4 +179,10 @@ export default Icon = {
   ShareIcon,
   MoreIcon,
   SettingIcon,
+  PlusIcon,
+  MenuIcon,
+  SendIcon,
+  TrashIcon,
+  RepeatIcon2,
+  PlayIcon,
 };
