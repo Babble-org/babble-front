@@ -4,6 +4,8 @@ import Babb from "../blocks/Babb";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../utils/api";
 import { BabbProps } from "../../utils";
+import SwiperFlatList from "react-native-swiper-flatlist";
+import Card from "./Card";
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
@@ -21,18 +23,12 @@ const Home = () => {
         menuOnPress={undefined}
       ></MainHeader>
       {!BabbData.isLoading && (
-        <ContentContainer
+        <SwiperFlatList
           data={BabbData.data}
-          renderItem={({ item: babb }: { item: BabbProps }) => (
-            <Babb
-              key={babb.id}
-              nick_name={babb.nick_name}
-              content={babb.content}
-              inserted_at={babb.inserted_at}
-              img={babb.img}
-            />
+          renderItem={({ item }: { item: BabbProps }) => (
+            <Card babb={item}></Card>
           )}
-        ></ContentContainer>
+        ></SwiperFlatList>
       )}
     </Container>
   );
