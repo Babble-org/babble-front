@@ -13,11 +13,11 @@ const TabContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
+  padding: 0 20px;
   padding-bottom: ${(props: { insets: Insets }) => props.insets.bottom}px;
 `;
 const LogoBox = styled.TouchableOpacity`
-  width: 50px;
+  width: 33%;
   height: 50px;
   justify-content: center;
   align-items: center;
@@ -63,11 +63,9 @@ const BottomTabBar = () => {
     <Shadow>
       <TabContainer insets={insets}>
         <LogoBox onPress={() => NavigateBTnOnPress("Home")}>
-          <Icon.HomeIcon size={35} outline={curScreen != "Home"} />
+          <Icon.RepeatIcon2 size={35} outline={curScreen != "Home"} />
         </LogoBox>
-        <LogoBox onPress={() => NavigateBTnOnPress("Search")}>
-          <Icon.SearchIcon size={35} outline={curScreen != "Search"} />
-        </LogoBox>
+
         <Shadow offset={[0, -15]} style={{ borderRadius: 35 }}>
           <MicLogoBox>
             <HideBox></HideBox>
@@ -76,11 +74,9 @@ const BottomTabBar = () => {
             </BlueBox>
           </MicLogoBox>
         </Shadow>
-        <LogoBox onPress={() => NavigateBTnOnPress("Notification")}>
-          <Icon.HeartIcon size={35} outline={curScreen != "Notification"} />
-        </LogoBox>
+
         <LogoBox onPress={() => NavigateBTnOnPress("Message")}>
-          <Icon.MailIcon size={35} outline={curScreen != "Message"} />
+          <Icon.PlayIcon size={35} outline={curScreen != "Message"} />
         </LogoBox>
       </TabContainer>
     </Shadow>
