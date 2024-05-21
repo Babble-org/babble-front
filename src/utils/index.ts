@@ -24,4 +24,5 @@ export interface BabbProps {
   nick_name: string;
   content: string;
   inserted_at: string;
+  img?: string[] | undefined;
 }
