@@ -8,9 +8,11 @@ const { width, height } = Dimensions.get("window");
 
 const Container = styled.View`
   width: ${width}px;
-  margin-bottom: 25px;
 `;
 const ContentContainer = styled.FlatList``;
+const Footer = styled.View`
+  height: 25px;
+`;
 
 const Card = ({ babb }: { babb: BabbProps }) => {
   return (
@@ -29,6 +31,7 @@ const Card = ({ babb }: { babb: BabbProps }) => {
             <BabbInfo></BabbInfo>
           </>
         )}
+        ListFooterComponent={() => <Footer />}
         renderItem={({ item: babb }: { item: BabbProps }) => {
           return (
             <Babb
