@@ -1,13 +1,16 @@
 import styled from "styled-components/native";
-import { useContext, useState } from "react";
-import { InsetsContext } from "../../utils/context";
+import { useContext, useEffect, useState } from "react";
+import { InsetsContext, ScrollContext } from "../../utils/context";
 import { Insets } from "../../utils";
 import Icon from "../../utils/icon";
 import { Shadow } from "react-native-shadow-2";
 import { useNavigation } from "@react-navigation/native";
 
-const TabContainer = styled.View`
+export const TabContainer = styled.View`
   width: 100%;
+  position: absolute;
+  bottom: 0;
+  opacity: ${(props: { opacity: number }) => props.opacity};
   height: ${(props: { insets: Insets }) => 60 + props.insets.bottom}px;
   background-color: #fff;
   flex-direction: row;
@@ -52,16 +55,25 @@ const BottomTabBar = () => {
   const navigation = useNavigation();
 
   const [curScreen, setCurScreen] = useState("Home");
+  const [opacity, setOpacity] = useState(1);
   const { insets } = useContext(InsetsContext);
+  const { scrollY } = useContext(ScrollContext);
 
   const NavigateBTnOnPress = (screenName: string) => {
     // @ts-ignore
     navigation.navigate(screenName);
     setCurScreen(screenName);
   };
+
+  // useEffect(() => {
+  //   // if (opacity >= 0 && opacity <= 1) {
+  //   //   setOpacity((prev) => prev - scrollY / 50);
+  //   // }
+  //   console.log(scrollY);
+  // }, [scrollY]);
   return (
     <Shadow>
-      <TabContainer insets={insets}>
+      <TabContainer insets={insets} opacity={opacity}>
         <LogoBox onPress={() => NavigateBTnOnPress("Home")}>
           <Icon.RepeatIcon2 size={35} outline={curScreen != "Home"} />
         </LogoBox>
