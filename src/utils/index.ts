@@ -11,9 +11,9 @@ export interface InsetsContextInterface {
   setInsets: (insets: Insets) => void;
 }
 export interface MainHeaderProps {
-  mainLogoOnPress: void;
-  profileOnPress: void;
-  menuOnPress: void;
+  mainLogoOnPress: () => void | undefined;
+  profileOnPress: () => void | undefined;
+  menuOnPress: () => void | undefined;
 }
 export interface IconProps {
   height?: number;
@@ -35,4 +35,9 @@ export interface DetailImageProps {
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
   img: string;
+}
+
+export interface MenuProps {
+  visible: boolean;
+  setVisible: Dispatch<SetStateAction<boolean>>;
 }
