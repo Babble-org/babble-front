@@ -4,11 +4,6 @@ import { DetailImageProps } from "../../utils";
 const ImageBox = styled.Modal`
   opacity: 0.5;
 `;
-const Container = styled.View`
-  flex: 1;
-  background-color: black;
-  opacity: 0.5;
-`;
 const ModalContainer = styled.Pressable`
   flex: 1;
   justify-content: center;
