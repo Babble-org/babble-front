@@ -16,9 +16,16 @@ const UpperSection = styled.View`
 const LowerSection = styled.View`
   flex: 0.15;
   justify-content: flex-start;
+  align-items: center;
 `;
 const LogoBox = styled.View``;
 const BtnBox = styled.View``;
+const LoginText = styled.Text`
+  font-size: 15px;
+`;
+const LoginBtn = styled.TouchableOpacity`
+  margin-top: 10px;
+`;
 
 const Start = ({ navigation }: { navigation: any }) => {
   return (
@@ -36,6 +43,9 @@ const Start = ({ navigation }: { navigation: any }) => {
             onPress={() => navigation.navigate("InviteCodePage")}
           />
         </BtnBox>
+        <LoginBtn onPress={() => navigation.navigate("Login")}>
+          <LoginText>이미 계정이 있으신가요?</LoginText>
+        </LoginBtn>
       </LowerSection>
     </Container>
   );
