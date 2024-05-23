@@ -9,9 +9,9 @@ export const handlers = [
         inserted_at: "2024-05-20T12:34:55Z",
         content: "안녕하세요. 저는 박건태입니다.",
         img: [
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300",
+          "https://picsum.photos/500/600",
+          "https://picsum.photos/500/500",
+          "https://picsum.photos/600/600",
         ],
         comment: [
           {
@@ -45,14 +45,14 @@ export const handlers = [
         nick_name: "이재혁",
         inserted_at: "2024-05-20T12:34:55Z",
         content: "안녕하세요. 저는 이재혁입니다.",
-        img: ["https://picsum.photos/200/300", "https://picsum.photos/200/300"],
+        img: ["https://picsum.photos/400/300", "https://picsum.photos/500/300"],
       },
       {
         id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3c",
         nick_name: "이재혁",
         inserted_at: "2024-05-20T12:34:55Z",
         content: "안녕하세요. 저는 이재혁입니다.",
-        img: ["https://picsum.photos/200/300"],
+        img: ["https://picsum.photos/1024/1024"],
       },
       {
         id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3d3b3a",
