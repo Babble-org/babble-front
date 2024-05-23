@@ -32,7 +32,7 @@ const MainHeader = ({
   return (
     <HeaderContainer insets={insets}>
       <LogoBox>
-        <LogoBtnOpacity onPress={profileOnPress}>
+        <LogoBtnOpacity onPress={menuOnPress}>
           <Icon.MenuIcon size={30} color={"#000"} />
         </LogoBtnOpacity>
       </LogoBox>
