@@ -10,3 +10,8 @@ export const InsetsContext = createContext<InsetsContextInterface>({
   },
   setInsets: (insets) => {},
 });
+
+export const ScrollContext = createContext({
+  scrollY: Object,
+  setScrollY: (scrollY: Object) => {},
+});
