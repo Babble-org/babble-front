@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
 import DetailImage from "../atoms/DetailImage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Dimensions } from "react-native";
 
 const ImageBox = styled.Image`
   width: ${(props: { width: number }) => props.width}px;
@@ -13,10 +14,14 @@ const ImageBtn = styled.Pressable``;
 const ImageContainer = styled.View``;
 const ImageWrap = styled.View`
   flex-direction: row;
+  width: 100%;
 `;
 
 const ImageViewer = ({ img }: { img: string[] | undefined }) => {
   const [visible, setVisible] = useState(false);
+  const width = Dimensions.get("window").width;
+  // 전체 화면 넓이에서 프로필 60px, 전체 좌우 마진 40px, 내부 좌우 마진 20px을 뺌.
+  const fullWidth = width - 120;
   if (img === undefined || img.length === 0) {
     return null;
   }
@@ -31,7 +36,7 @@ const ImageViewer = ({ img }: { img: string[] | undefined }) => {
     return (
       <>
         <ImageBtn onPress={() => imgOnPress(img[0])}>
-          <ImageBox width={290} height={200} source={{ uri: img[0] }} />
+          <ImageBox width={fullWidth} height={200} source={{ uri: img[0] }} />
         </ImageBtn>
         <DetailImage visible={visible} setVisible={setVisible} img={imgURL} />
       </>
@@ -43,10 +48,18 @@ const ImageViewer = ({ img }: { img: string[] | undefined }) => {
       <>
         <ImageWrap>
           <ImageBtn onPress={() => imgOnPress(img[0])}>
-            <ImageBox width={145} height={200} source={{ uri: img[0] }} />
+            <ImageBox
+              width={fullWidth / 2 - 5}
+              height={200}
+              source={{ uri: img[0] }}
+            />
           </ImageBtn>
           <ImageBtn onPress={() => imgOnPress(img[1])}>
-            <ImageBox width={145} height={200} source={{ uri: img[1] }} />
+            <ImageBox
+              width={fullWidth / 2 - 5}
+              height={200}
+              source={{ uri: img[1] }}
+            />
           </ImageBtn>
         </ImageWrap>
         <DetailImage visible={visible} setVisible={setVisible} img={imgURL} />
@@ -60,14 +73,22 @@ const ImageViewer = ({ img }: { img: string[] | undefined }) => {
         <ImageContainer>
           <ImageWrap>
             <ImageBtn onPress={() => imgOnPress(img[0])}>
-              <ImageBox width={145} height={100} source={{ uri: img[0] }} />
+              <ImageBox
+                width={fullWidth / 2 - 5}
+                height={100}
+                source={{ uri: img[0] }}
+              />
             </ImageBtn>
             <ImageBtn onPress={() => imgOnPress(img[1])}>
-              <ImageBox width={145} height={100} source={{ uri: img[1] }} />
+              <ImageBox
+                width={fullWidth / 2 - 5}
+                height={100}
+                source={{ uri: img[1] }}
+              />
             </ImageBtn>
           </ImageWrap>
           <ImageBtn onPress={() => imgOnPress(img[2])}>
-            <ImageBox width={300} height={100} source={{ uri: img[2] }} />
+            <ImageBox width={fullWidth} height={100} source={{ uri: img[2] }} />
           </ImageBtn>
         </ImageContainer>
         <DetailImage visible={visible} setVisible={setVisible} img={imgURL} />
