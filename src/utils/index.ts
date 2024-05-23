@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface Insets {
   bottom: number;
   top: number;
@@ -27,4 +29,10 @@ export interface BabbProps {
   inserted_at: string;
   img?: string[] | undefined;
   comment?: object[] | undefined;
+}
+
+export interface DetailImageProps {
+  visible: boolean;
+  setVisible: Dispatch<SetStateAction<boolean>>;
+  img: string;
 }
