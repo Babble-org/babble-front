@@ -1,8 +1,9 @@
-import { BabbProps } from "../../utils";
+import { BabbProps, CommentProps } from "../../utils";
 import styled from "styled-components/native";
 import Babb from "../blocks/Babb";
 import { Dimensions } from "react-native";
 import BabbInfo from "../blocks/BabbInfo";
+import Comment from "../blocks/Comment";
 
 const { width, height } = Dimensions.get("window");
 
@@ -32,14 +33,16 @@ const Card = ({ babb }: { babb: BabbProps }) => {
           </>
         )}
         ListFooterComponent={() => <FooterComponent />}
-        renderItem={({ item: babb }: { item: BabbProps }) => {
+        KeyExtractor={(item: CommentProps) => item.id}
+        renderItem={({ item: babb }: { item: CommentProps }) => {
           return (
-            <Babb
-              key={babb.id}
+            <Comment
+              id={babb.id}
               nick_name={babb.nick_name}
               content={babb.content}
               inserted_at={babb.inserted_at}
               img={babb.img}
+              n_comment={babb.n_comment}
             />
           );
         }}
