@@ -19,6 +19,26 @@ export const handlers = [
             nick_name: "박건태",
             inserted_at: "2024-05-20T12:34:55Z",
             content: "안녕하세요. 저는 박건태입니다.1",
+            n_comment: [
+              {
+                id: "c7b3d8e0-5e0b-4b0f-8b3a-3q9f4b3d312d",
+                nick_name: "박건태",
+                inserted_at: "2024-05-20T12:34:55Z",
+                content: "대댓글1",
+              },
+              {
+                id: "c7b3d8e0-5e0b-4b0f-1b3a-3b9f4b3d312d",
+                nick_name: "박건태",
+                inserted_at: "2024-05-20T12:34:55Z",
+                content: "대댓글2",
+              },
+              {
+                id: "c7b3d8ea-5e0b-4b0f-1b3a-3b9f4b3d312d",
+                nick_name: "박건태",
+                inserted_at: "2024-05-20T12:34:55Z",
+                content: "대댓글3",
+              },
+            ],
           },
           {
             id: "c7b3d8e0-5e0b-4b0f-8b3a-3b9f4b3web3d",
