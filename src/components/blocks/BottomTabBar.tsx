@@ -4,7 +4,6 @@ import { InsetsContext } from "../../utils/context";
 import { Insets } from "../../utils";
 import Icon from "../../utils/icon";
 import { Shadow } from "react-native-shadow-2";
-import { useNavigation } from "@react-navigation/native";
 
 const TabContainer = styled.View`
   width: 100%;
@@ -48,24 +47,14 @@ const BlueBox = styled.TouchableOpacity`
   background-color: #5351c9;
 `;
 
-const BottomTabBar = () => {
-  const navigation = useNavigation();
-
-  const [curScreen, setCurScreen] = useState("Home");
+const BottomTabBar = ({ isPostMode }: { isPostMode?: boolean }) => {
   const { insets } = useContext(InsetsContext);
-
-  const NavigateBTnOnPress = (screenName: string) => {
-    // @ts-ignore
-    navigation.navigate(screenName);
-    setCurScreen(screenName);
-  };
   return (
     <Shadow>
       <TabContainer insets={insets}>
-        <LogoBox onPress={() => NavigateBTnOnPress("Home")}>
-          <Icon.RepeatIcon2 size={35} outline={curScreen != "Home"} />
+        <LogoBox>
+          <Icon.RepeatIcon2 size={35} />
         </LogoBox>
-
         <Shadow offset={[0, -15]} style={{ borderRadius: 35 }}>
           <MicLogoBox>
             <HideBox></HideBox>
@@ -74,9 +63,8 @@ const BottomTabBar = () => {
             </BlueBox>
           </MicLogoBox>
         </Shadow>
-
-        <LogoBox onPress={() => NavigateBTnOnPress("Message")}>
-          <Icon.PlayIcon size={35} outline={curScreen != "Message"} />
+        <LogoBox>
+          <Icon.PlayIcon size={35} />
         </LogoBox>
       </TabContainer>
     </Shadow>
