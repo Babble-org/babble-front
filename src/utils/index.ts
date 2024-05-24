@@ -12,7 +12,7 @@ export interface InsetsContextInterface {
 }
 export interface MainHeaderProps {
   mainLogoOnPress: () => void | undefined;
-  profileOnPress: () => void | undefined;
+  postOnPress: () => void | undefined;
   menuOnPress: () => void | undefined;
 }
 export interface IconProps {
