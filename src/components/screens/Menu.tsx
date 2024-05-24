@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import colors from "../../utils/color";
 import { InsetsContext } from "../../utils/context";
 import Icon from "../../utils/icon";
+import { useNavigation } from "@react-navigation/native";
 
 const Container = styled.Modal`
   opacity: 0.5;
@@ -84,6 +85,7 @@ const Menu = ({ visible, setVisible }: MenuProps) => {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
   }));
+  const nav = useNavigation<any>();
 
   useEffect(() => {
     if (visible) {
@@ -114,7 +116,12 @@ const Menu = ({ visible, setVisible }: MenuProps) => {
           </RowBox>
         </ProfileContainer>
         <NavContainer>
-          <NavBtn>
+          <NavBtn
+            onPress={() => {
+              nav.navigate("Stack", { screen: "Profile" });
+              setModalClose(true);
+            }}
+          >
             <RowBox>
               <Icon.ProfileIcon width={22} height={22}></Icon.ProfileIcon>
               <MenuText>프로필</MenuText>
