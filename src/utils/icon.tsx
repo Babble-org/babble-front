@@ -162,6 +162,12 @@ const RepeatIcon2 = ({ size, color }: IconProps) => {
 const PlayIcon = ({ size, color }: IconProps) => {
   return <FontAwesome6 name={"play"} size={size} color={color} />;
 };
+const DownIcon = ({ size, color }: IconProps) => {
+  return <Ionicons name={"chevron-down"} size={size} color={color} />;
+};
+const UpIcon = ({ size, color }: IconProps) => {
+  return <Ionicons name={"chevron-up"} size={size} color={color} />;
+};
 
 declare var Icon: any;
 export default Icon = {
@@ -185,4 +191,6 @@ export default Icon = {
   TrashIcon,
   RepeatIcon2,
   PlayIcon,
+  DownIcon,
+  UpIcon,
 };
