@@ -5,6 +5,8 @@ import colors from "../../utils/color";
 import SmallButton from "../atoms/SmallButton";
 import Icon from "../../utils/icon";
 import ImageViewer from "./ImageViewer";
+import BabbMenu from "./BabbMenu";
+import { useState } from "react";
 
 const BabbContainer = styled.View`
   flex-direction: row;
@@ -75,6 +77,7 @@ const Babb = ({ nick_name, content, inserted_at, img }: BabbProps) => {
 
     return `${start.toLocaleDateString()}`;
   };
+  const [visible, setVisible] = useState(false);
 
   return (
     <BabbContainer>
@@ -94,7 +97,7 @@ const Babb = ({ nick_name, content, inserted_at, img }: BabbProps) => {
               <UpperRightWrap>
                 {/* TODO:팔로우가 돼있거나 자신 글이면 버튼 띄우지 말기 */}
                 <SmallButton text="팔로우"></SmallButton>
-                <MoreBtn>
+                <MoreBtn onPress={() => setVisible(true)}>
                   <Icon.MoreIcon size={20} color={colors.Gray}></Icon.MoreIcon>
                 </MoreBtn>
               </UpperRightWrap>
@@ -106,6 +109,7 @@ const Babb = ({ nick_name, content, inserted_at, img }: BabbProps) => {
           </ContentWrap>
         </Shadow>
       </ContentView>
+      <BabbMenu visible={visible} setVisible={setVisible} />
     </BabbContainer>
   );
 };
