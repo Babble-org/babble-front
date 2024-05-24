@@ -92,6 +92,7 @@ const Babb = ({ nick_name, content, inserted_at, img }: BabbProps) => {
                 </TimeText>
               </UpperLeftWrap>
               <UpperRightWrap>
+                {/* TODO:팔로우가 돼있거나 자신 글이면 버튼 띄우지 말기 */}
                 <SmallButton text="팔로우"></SmallButton>
                 <MoreBtn>
                   <Icon.MoreIcon size={20} color={colors.Gray}></Icon.MoreIcon>

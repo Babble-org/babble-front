@@ -168,6 +168,9 @@ const DownIcon = ({ size, color }: IconProps) => {
 const UpIcon = ({ size, color }: IconProps) => {
   return <Ionicons name={"chevron-up"} size={size} color={color} />;
 };
+const BackIcon = ({ size, color }: IconProps) => {
+  return <Ionicons name={"chevron-back"} size={size} color={color} />;
+};
 
 declare var Icon: any;
 export default Icon = {
@@ -193,4 +196,5 @@ export default Icon = {
   PlayIcon,
   DownIcon,
   UpIcon,
+  BackIcon,
 };
