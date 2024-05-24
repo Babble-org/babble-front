@@ -22,13 +22,28 @@ export interface IconProps {
   color?: string;
   outline?: boolean;
 }
+export interface NestedCommentProps {
+  id: string;
+  nick_name: string;
+  content: string;
+  inserted_at: string;
+  img: string[];
+}
+export interface CommentProps {
+  id: string;
+  nick_name: string;
+  content: string;
+  inserted_at: string;
+  img: string[];
+  n_comment: NestedCommentProps[];
+}
 export interface BabbProps {
   id?: string;
   nick_name: string;
   content: string;
   inserted_at: string;
   img?: string[] | undefined;
-  comment?: object[] | undefined;
+  comment?: CommentProps[];
 }
 
 export interface DetailImageProps {
