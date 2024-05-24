@@ -6,6 +6,7 @@ import { IconProps } from "./index";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const BabbleIcon = ({ height, width, color }: IconProps) => {
   return (
@@ -171,6 +172,12 @@ const UpIcon = ({ size, color }: IconProps) => {
 const BackIcon = ({ size, color }: IconProps) => {
   return <Ionicons name={"chevron-back"} size={size} color={color} />;
 };
+const NotInterestedIcon = ({ size, color }: IconProps) => {
+  return <MaterialCommunityIcons name={"eye-off"} size={size} color={color} />;
+};
+const ReportIcon = ({ size, color }: IconProps) => {
+  return <Feather name={"alert-circle"} size={size} color={color} />;
+};
 
 declare var Icon: any;
 export default Icon = {
@@ -197,4 +204,6 @@ export default Icon = {
   DownIcon,
   UpIcon,
   BackIcon,
+  NotInterestedIcon,
+  ReportIcon,
 };
