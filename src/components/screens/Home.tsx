@@ -13,7 +13,7 @@ const Container = styled.View`
   background-color: #fff;
 `;
 
-const Home = () => {
+const Home = ({ navigation }: { navigation: any }) => {
   const BabbData = useQuery({ queryKey: ["babbs"], queryFn: api.getBabb });
   const [visible, setVisible] = useState(false);
 
@@ -21,7 +21,7 @@ const Home = () => {
     <Container>
       <MainHeader
         mainLogoOnPress={() => undefined}
-        profileOnPress={() => undefined}
+        postOnPress={() => navigation.navigate("Stack", { screen: "Post" })}
         menuOnPress={() => setVisible(true)}
       ></MainHeader>
       <Menu visible={visible} setVisible={setVisible}></Menu>
