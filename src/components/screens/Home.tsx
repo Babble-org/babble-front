@@ -7,21 +7,24 @@ import SwiperFlatList from "react-native-swiper-flatlist";
 import Card from "./Card";
 import Menu from "./Menu";
 import { useState } from "react";
+import BottomTabBar from "../blocks/BottomTabBar";
 
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
 `;
 
-const Home = () => {
+const Home = ({ navigation }: { navigation: any }) => {
   const BabbData = useQuery({ queryKey: ["babbs"], queryFn: api.getBabb });
   const [visible, setVisible] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isPostMode, setIsPostMode] = useState(false);
 
   return (
     <Container>
       <MainHeader
         mainLogoOnPress={() => undefined}
-        profileOnPress={() => undefined}
+        postOnPress={() => navigation.navigate("Stack", { screen: "Post" })}
         menuOnPress={() => setVisible(true)}
       ></MainHeader>
       <Menu visible={visible} setVisible={setVisible}></Menu>
@@ -33,6 +36,12 @@ const Home = () => {
           )}
         ></SwiperFlatList>
       )}
+      <BottomTabBar
+        isPostMode={isPostMode}
+        setIsPostMode={setIsPostMode}
+        isRecording={isRecording}
+        setIsRecording={setIsRecording}
+      ></BottomTabBar>
     </Container>
   );
 };

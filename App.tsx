@@ -2,7 +2,7 @@ import Root from "./src/navigation/Root";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useCallback, useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { InsetsContext } from "./src/utils/context";
+import { FocusContext, InsetsContext } from "./src/utils/context";
 import * as SplashScreen from "expo-splash-screen";
 import { Insets } from "./src/utils";
 
@@ -48,11 +48,13 @@ export default function App() {
 
   return (
     <InsetsContext.Provider value={{ insets, setInsets }}>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaProvider onLayout={onLayoutRootView}>
-          <Root></Root>
-        </SafeAreaProvider>
-      </QueryClientProvider>
+      <FocusContext.Provider value={{ id: "", setId: () => {} }}>
+        <QueryClientProvider client={queryClient}>
+          <SafeAreaProvider onLayout={onLayoutRootView}>
+            <Root></Root>
+          </SafeAreaProvider>
+        </QueryClientProvider>
+      </FocusContext.Provider>
     </InsetsContext.Provider>
   );
 }

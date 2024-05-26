@@ -4,6 +4,8 @@ import { InsetsContext } from "../../utils/context";
 import { Insets } from "../../utils";
 import Icon from "../../utils/icon";
 import { Shadow } from "react-native-shadow-2";
+import colors from "../../utils/color";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useNavigation } from "@react-navigation/native";
 
 const TabContainer = styled.View`
@@ -48,36 +50,99 @@ const BlueBox = styled.TouchableOpacity`
   background-color: #5351c9;
 `;
 
-const BottomTabBar = () => {
-  const navigation = useNavigation();
-
-  const [curScreen, setCurScreen] = useState("Home");
+const BottomTabBar = ({
+  isPostMode,
+  isRecording,
+  setIsPostMode,
+  setIsRecording,
+}: {
+  isPostMode?: boolean;
+  setIsPostMode?: (value: boolean) => void;
+  isRecording: boolean;
+  setIsRecording: (value: boolean) => void;
+}) => {
   const { insets } = useContext(InsetsContext);
+  const [circleValue, setCircleValue] = useState(0);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+  const [isFirst, setIsFirst] = useState(true);
 
-  const NavigateBTnOnPress = (screenName: string) => {
-    // @ts-ignore
-    navigation.navigate(screenName);
-    setCurScreen(screenName);
+  const nav = useNavigation<any>();
+
+  const onPressIn = () => {
+    if (isPostMode) {
+      setIsFirst(false);
+      setIsRecording(true);
+      const id = setInterval(() => {
+        setCircleValue((prev) => {
+          if (prev < 100) {
+            return prev + 0.167; // 1000 / 60 = 0.167, 1분에 걸쳐 100으로 변경
+          } else {
+            clearInterval(id);
+            return 100;
+          }
+        });
+      }, 100);
+      setIntervalId(id);
+    }
   };
+
+  const onPressOut = () => {
+    setIsRecording(false);
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
+    //setCircleValue(0); // 버튼에서 손을 떼면 값 초기화
+  };
+
   return (
     <Shadow>
       <TabContainer insets={insets}>
-        <LogoBox onPress={() => NavigateBTnOnPress("Home")}>
-          <Icon.RepeatIcon2 size={35} outline={curScreen != "Home"} />
-        </LogoBox>
-
+        {isPostMode ? (
+          <LogoBox disabled={isFirst || isRecording}>
+            <Icon.TrashIcon
+              size={35}
+              color={isFirst || isRecording ? colors.Gray : colors.Black}
+            />
+          </LogoBox>
+        ) : (
+          <LogoBox>
+            <Icon.RepeatIcon2 size={35} />
+          </LogoBox>
+        )}
         <Shadow offset={[0, -15]} style={{ borderRadius: 35 }}>
           <MicLogoBox>
             <HideBox></HideBox>
-            <BlueBox>
-              <Icon.MicIcon size={40} outline={true} color={"#fff"} />
+            <AnimatedCircularProgress
+              rotation={0}
+              style={{ position: "absolute" }}
+              size={70}
+              width={5}
+              fill={circleValue}
+              tintColor="#ff0000"
+              backgroundColor="#fff"
+            />
+            <BlueBox onPressIn={onPressIn} onPressOut={onPressOut}>
+              <Icon.MicIcon
+                size={40}
+                outline={true}
+                color={"#fff"}
+              ></Icon.MicIcon>
             </BlueBox>
           </MicLogoBox>
         </Shadow>
-
-        <LogoBox onPress={() => NavigateBTnOnPress("Message")}>
-          <Icon.PlayIcon size={35} outline={curScreen != "Message"} />
-        </LogoBox>
+        {isPostMode ? (
+          <LogoBox disabled={isFirst || isRecording}>
+            <Icon.SendIcon
+              size={35}
+              color={isFirst || isRecording ? colors.Gray : colors.Black}
+            />
+          </LogoBox>
+        ) : (
+          <LogoBox>
+            <Icon.PlayIcon size={35} />
+          </LogoBox>
+        )}
       </TabContainer>
     </Shadow>
   );

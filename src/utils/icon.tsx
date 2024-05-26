@@ -178,6 +178,9 @@ const NotInterestedIcon = ({ size, color }: IconProps) => {
 const ReportIcon = ({ size, color }: IconProps) => {
   return <Feather name={"alert-circle"} size={size} color={color} />;
 };
+const PhotoIcon = ({ size, color }: IconProps) => {
+  return <Ionicons name={"image"} size={size} color={color} />;
+};
 
 declare var Icon: any;
 export default Icon = {
@@ -206,4 +209,5 @@ export default Icon = {
   BackIcon,
   NotInterestedIcon,
   ReportIcon,
+  PhotoIcon,
 };

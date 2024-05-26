@@ -5,6 +5,7 @@ import SMSAuth from "../components/screens/register/SMSAuth";
 import Register from "../components/screens/register/Register";
 import Login from "../components/screens/register/Login";
 import Profile from "../components/screens/Profile";
+import Post from "../components/screens/Post";
 
 const NativeStack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const Stack = () => {
       <NativeStack.Screen name="Register" component={Register} />
       <NativeStack.Screen name="Login" component={Login} />
       <NativeStack.Screen name="Profile" component={Profile} />
+      <NativeStack.Screen name="Post" component={Post} />
     </NativeStack.Navigator>
   );
 };

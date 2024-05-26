@@ -24,7 +24,7 @@ const LogoBtnOpacity = styled.TouchableOpacity``;
 
 const MainHeader = ({
   mainLogoOnPress,
-  profileOnPress,
+  postOnPress,
   menuOnPress,
 }: MainHeaderProps) => {
   const { insets } = useContext(InsetsContext);
@@ -42,7 +42,7 @@ const MainHeader = ({
         </LogoBtn>
       </LogoBox>
       <LogoBox>
-        <LogoBtnOpacity onPress={profileOnPress}>
+        <LogoBtnOpacity onPress={postOnPress}>
           <Icon.PlusIcon size={33} color={"#000"} />
         </LogoBtnOpacity>
       </LogoBox>
