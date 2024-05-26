@@ -10,3 +10,11 @@ export const InsetsContext = createContext<InsetsContextInterface>({
   },
   setInsets: (insets) => {},
 });
+
+export const FocusContext = createContext<{
+  id: string;
+  setId: (id: string) => void;
+}>({
+  id: "",
+  setId: (id) => {},
+});
