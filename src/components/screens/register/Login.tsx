@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { LoginInfo } from "../../../utils";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../../utils/api";
+import { ActivityIndicator, Modal } from "react-native";
+import Loader from "../../atoms/Loader";
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
@@ -28,8 +30,7 @@ const Login = ({ navigation }: { navigation: any }) => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loginInfo, setLoginInfo] = useState<LoginInfo | null>(null);
-
-  const { data: userData } = useQuery({
+  const { data: userData, isLoading } = useQuery({
     queryKey: ["userData", loginInfo],
     queryFn: () => api.Login(loginInfo),
     enabled: !!loginInfo,
@@ -48,6 +49,7 @@ const Login = ({ navigation }: { navigation: any }) => {
 
   return (
     <Container>
+      {isLoading && <Loader></Loader>}
       <RegisterHeader />
       <ContentWrap>
         <Text>로그인하기</Text>

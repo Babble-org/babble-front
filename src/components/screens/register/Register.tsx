@@ -8,6 +8,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import colors from "../../../utils/color";
 import { useQuery } from "@tanstack/react-query";
 import { RegisterInfo } from "../../../utils";
+import Loader from "../../atoms/Loader";
 
 const Container = styled.View`
   flex: 1;
@@ -94,12 +95,12 @@ const Register = ({ navigation }: { navigation: any }) => {
   const [registerInfo, setRegisterInfo] = useState<RegisterInfo | null>(null);
   const [isRegisterSuccess, setIsRegisterSuccess] = useState<boolean>(false);
 
-  const { data: registerData } = useQuery({
+  const { data: registerData, isLoading: registerIsLoading } = useQuery({
     queryKey: ["registerInfo", registerInfo],
     queryFn: () => api.Register(registerInfo),
     enabled: !!registerInfo,
   });
-  const { data: userData } = useQuery({
+  const { data: userData, isLoading: loginIsLoading } = useQuery({
     queryKey: ["userData", { user_name: id, password: password }],
     queryFn: () => api.Login({ user_name: id, password: password }),
     enabled: !!isRegisterSuccess,
@@ -203,6 +204,7 @@ const Register = ({ navigation }: { navigation: any }) => {
 
   return (
     <Container>
+      {registerIsLoading && loginIsLoading && <Loader></Loader>}
       <RegisterHeader></RegisterHeader>
       <ContentWrap>
         <Text>새로운 계정 만들기</Text>
