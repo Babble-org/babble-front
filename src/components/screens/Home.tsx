@@ -6,8 +6,9 @@ import { BabbProps } from "../../utils";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import Card from "./Card";
 import Menu from "./Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BottomTabBar from "../blocks/BottomTabBar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Container = styled.View`
   flex: 1;
@@ -19,6 +20,23 @@ const Home = ({ navigation }: { navigation: any }) => {
   const [visible, setVisible] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isPostMode, setIsPostMode] = useState(false);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("access_token");
+      if (value !== null) {
+        // 토큰 유효성 확인
+      } else {
+        navigation.replace("Stack", { screen: "StartPage" });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Container>
