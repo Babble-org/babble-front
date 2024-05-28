@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../../../utils/api";
 import { ActivityIndicator, Modal } from "react-native";
 import Loader from "../../atoms/Loader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
@@ -43,7 +44,8 @@ const Login = ({ navigation }: { navigation: any }) => {
   useEffect(() => {
     if (userData) {
       console.log(userData);
-      navigation.navigate("BottomTabs", { screen: "Home" });
+      AsyncStorage.setItem("access_token", userData.token);
+      navigation.replace("BottomTabs", { screen: "Home" });
     }
   }, [userData]);
 
