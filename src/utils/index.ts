@@ -56,3 +56,16 @@ export interface MenuProps {
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface RegisterInfo {
+  birth: string;
+  gender: string;
+  nick_name: string;
+  password: string;
+  user_name: string;
+}
+
+export interface LoginInfo {
+  user_name: string;
+  password: string;
+}

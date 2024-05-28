@@ -5,6 +5,10 @@ import MediumButton from "../../atoms/MediumButton";
 import { useEffect, useState } from "react";
 import api from "../../../utils/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import colors from "../../../utils/color";
+import { useQuery } from "@tanstack/react-query";
+import { RegisterInfo } from "../../../utils";
+import Loader from "../../atoms/Loader";
 
 const Container = styled.View`
   flex: 1;
@@ -43,6 +47,38 @@ const Placeholder = styled.Text`
 const InputText = styled(Placeholder)`
   color: #000;
 `;
+const GenderWrap = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
+`;
+const MaleBtn = styled.TouchableOpacity`
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid ${colors.Gray};
+  border: ${(props: { gender: number }) =>
+    props.gender == 1
+      ? `7px solid ${colors.MainColor}`
+      : `1px solid ${colors.Gray}`};
+`;
+const FemaleBtn = styled.TouchableOpacity`
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid ${colors.Gray};
+  border: ${(props: { gender: number }) =>
+    props.gender == 0
+      ? `7px solid ${colors.MainColor}`
+      : `1px solid ${colors.Gray}`};
+`;
+const GenderText = styled.Text`
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 5px;
+  margin-right: 15px;
+`;
 
 const Register = ({ navigation }: { navigation: any }) => {
   const [id, setId] = useState<string>("");
@@ -55,12 +91,40 @@ const Register = ({ navigation }: { navigation: any }) => {
   const [dateOpen, setDateOpen] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
   const [dateChanged, setDateChanged] = useState<boolean>(false);
+  const [gender, setGender] = useState<number>(1);
+  const [registerInfo, setRegisterInfo] = useState<RegisterInfo | null>(null);
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState<boolean>(false);
+
+  const { data: registerData, isLoading: registerIsLoading } = useQuery({
+    queryKey: ["registerInfo", registerInfo],
+    queryFn: () => api.Register(registerInfo),
+    enabled: !!registerInfo,
+  });
+  const { data: userData, isLoading: loginIsLoading } = useQuery({
+    queryKey: ["userData", { user_name: id, password: password }],
+    queryFn: () => api.Login({ user_name: id, password: password }),
+    enabled: !!isRegisterSuccess,
+  });
+
+  useEffect(() => {
+    // 회원가입이 성공하여 회원가입 데이터가 반환될 시.
+    if (registerData) {
+      console.log(registerData);
+      setIsRegisterSuccess(true);
+    }
+  }, [registerData]);
+  useEffect(() => {
+    // 로그인이 성공하여 유저 데이터가 반환될 시.
+    if (userData) {
+      navigation.navigate("BottomTabs", { screen: "Home" });
+    }
+  }, [userData]);
 
   let formComplete: boolean =
     isIdAvailable &&
     isPasswordMatched &&
     passwordValid == 0 &&
-    name != null &&
+    name != "" &&
     dateChanged;
 
   // 아이디 중복 체크
@@ -112,6 +176,13 @@ const Register = ({ navigation }: { navigation: any }) => {
     // 모든 검사를 통과한 경우
     return 0;
   };
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줍니다.
+    const day = date.getDate();
+
+    return `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+  };
   const onChange = (event: any, selectedDate: Date | undefined) => {
     const currentDate = selectedDate;
     setDateChanged(true);
@@ -120,8 +191,20 @@ const Register = ({ navigation }: { navigation: any }) => {
     }
   };
 
+  const onNextBtnPress = () => {
+    const registerInfo = {
+      birth: formatDate(date),
+      gender: gender === 1 ? "M" : "F",
+      nick_name: name,
+      password: password,
+      user_name: id,
+    };
+    setRegisterInfo(registerInfo);
+  };
+
   return (
     <Container>
+      {registerIsLoading && loginIsLoading && <Loader></Loader>}
       <RegisterHeader></RegisterHeader>
       <ContentWrap>
         <Text>새로운 계정 만들기</Text>
@@ -130,6 +213,7 @@ const Register = ({ navigation }: { navigation: any }) => {
           onChangeText={setId}
           value={id}
           isValidate={isIdAvailable}
+          caretHidden={true}
         ></InputBox>
         {id && !isIdAvailable && (
           <ValidateText>
@@ -188,12 +272,16 @@ const Register = ({ navigation }: { navigation: any }) => {
         {dateOpen && (
           <DateTimePicker value={date} display="spinner" onChange={onChange} />
         )}
+        <GenderWrap>
+          <MaleBtn gender={gender} onPress={() => setGender(1)}></MaleBtn>
+          <GenderText>남성</GenderText>
+          <FemaleBtn gender={gender} onPress={() => setGender(0)}></FemaleBtn>
+          <GenderText>여성</GenderText>
+        </GenderWrap>
         <BtnContainer>
           <MediumButton
             text={"다음"}
-            onPress={() => () =>
-              navigation.navigate("BottomTabs", { screen: "Home" })
-            }
+            onPress={onNextBtnPress}
             enable={formComplete}
           />
         </BtnContainer>

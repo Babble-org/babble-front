@@ -2,7 +2,12 @@ import styled from "styled-components/native";
 import RegisterHeader from "../../blocks/headers/RegisterHeader";
 import InputBox from "../../atoms/InputBox";
 import MediumButton from "../../atoms/MediumButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { LoginInfo } from "../../../utils";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../../utils/api";
+import { ActivityIndicator, Modal } from "react-native";
+import Loader from "../../atoms/Loader";
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
@@ -24,9 +29,27 @@ const BtnContainer = styled.View`
 const Login = ({ navigation }: { navigation: any }) => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loginInfo, setLoginInfo] = useState<LoginInfo | null>(null);
+  const { data: userData, isLoading } = useQuery({
+    queryKey: ["userData", loginInfo],
+    queryFn: () => api.Login(loginInfo),
+    enabled: !!loginInfo,
+  });
+
+  const loginBtnPressed = () => {
+    setLoginInfo({ user_name: id, password: password });
+  };
+
+  useEffect(() => {
+    if (userData) {
+      console.log(userData);
+      navigation.navigate("BottomTabs", { screen: "Home" });
+    }
+  }, [userData]);
 
   return (
     <Container>
+      {isLoading && <Loader></Loader>}
       <RegisterHeader />
       <ContentWrap>
         <Text>로그인하기</Text>
@@ -39,9 +62,7 @@ const Login = ({ navigation }: { navigation: any }) => {
         <BtnContainer>
           <MediumButton
             text="로그인"
-            onPress={() =>
-              navigation.navigate("BottomTabs", { screen: "Home" })
-            }
+            onPress={loginBtnPressed}
             enable={id !== "" && password !== ""}
           />
         </BtnContainer>
