@@ -9,6 +9,7 @@ import Menu from "./Menu";
 import { useEffect, useState } from "react";
 import BottomTabBar from "../blocks/BottomTabBar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SkeletonLoader from "../atoms/SkeletonLoader";
 
 const Container = styled.View`
   flex: 1;
@@ -16,7 +17,10 @@ const Container = styled.View`
 `;
 
 const Home = ({ navigation }: { navigation: any }) => {
-  const BabbData = useQuery({ queryKey: ["babbs"], queryFn: api.getBabb });
+  const { data: babbData, isLoading } = useQuery({
+    queryKey: ["babbs"],
+    queryFn: api.getBabb,
+  });
   const [visible, setVisible] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isPostMode, setIsPostMode] = useState(false);
@@ -46,9 +50,11 @@ const Home = ({ navigation }: { navigation: any }) => {
         menuOnPress={() => setVisible(true)}
       ></MainHeader>
       <Menu visible={visible} setVisible={setVisible}></Menu>
-      {!BabbData.isLoading && (
+      {isLoading ? (
+        <SkeletonLoader />
+      ) : (
         <SwiperFlatList
-          data={BabbData.data}
+          data={babbData}
           renderItem={({ item }: { item: BabbProps }) => (
             <Card babb={item}></Card>
           )}
