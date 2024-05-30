@@ -55,11 +55,13 @@ const BottomTabBar = ({
   isRecording,
   setIsPostMode,
   setIsRecording,
+  sendBtnOnPress,
 }: {
   isPostMode?: boolean;
   setIsPostMode?: (value: boolean) => void;
   isRecording: boolean;
   setIsRecording: (value: boolean) => void;
+  sendBtnOnPress: () => void;
 }) => {
   const { insets } = useContext(InsetsContext);
   const [circleValue, setCircleValue] = useState(0);
@@ -132,7 +134,7 @@ const BottomTabBar = ({
           </MicLogoBox>
         </Shadow>
         {isPostMode ? (
-          <LogoBox disabled={isFirst || isRecording}>
+          <LogoBox disabled={isFirst || isRecording} onPress={sendBtnOnPress}>
             <Icon.SendIcon
               size={35}
               color={isFirst || isRecording ? colors.Gray : colors.Black}
