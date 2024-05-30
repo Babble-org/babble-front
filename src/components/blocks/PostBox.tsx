@@ -2,10 +2,10 @@ import styled from "styled-components/native";
 import { Shadow } from "react-native-shadow-2";
 import colors from "../../utils/color";
 import BabbMenu from "./BabbMenu";
-import { useEffect, useState } from "react";
-import { useSharedValue } from "react-native-reanimated";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Icon from "../../utils/icon";
 import WaveLoader from "../atoms/WaveLoader";
+import * as ImagePicker from "expo-image-picker";
 
 const BabbContainer = styled.View`
   flex-direction: row;
@@ -52,7 +52,13 @@ const UpperLeftWrap = styled.View`
 `;
 const IconBtn = styled.TouchableOpacity``;
 
-const PostBox = ({ isRecording }: { isRecording: boolean }) => {
+const PostBox = ({
+  isRecording,
+  setImageData,
+}: {
+  isRecording: boolean;
+  setImageData: Dispatch<SetStateAction<object[] | null>>;
+}) => {
   // 작성시간을 n분전으로 표시하는 함수.
   const elapsedTime = (date: number): string => {
     const start = new Date(date);
@@ -89,7 +95,7 @@ const PostBox = ({ isRecording }: { isRecording: boolean }) => {
             return 20;
           }
         });
-      }, 10); // 1초마다 업데이트
+      }, 10); // 0.1초마다 업데이트
       setIntervalId(id);
     } else {
       if (intervalId) {
@@ -99,6 +105,39 @@ const PostBox = ({ isRecording }: { isRecording: boolean }) => {
       setShadowValue(10);
     }
   }, [isRecording]);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsMultipleSelection: true,
+      selectionLimit: 3,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImageData([
+        {
+          uri: result.assets[0].uri,
+          type: result.assets[0].mimeType,
+          name: result.assets[0].fileName,
+        },
+        result.assets[1] && {
+          uri: result.assets[1].uri,
+          type: result.assets[1].mimeType,
+          name: result.assets[1].fileName,
+        },
+        result.assets[2] && {
+          uri: result.assets[2].uri,
+          type: result.assets[2].mimeType,
+          name: result.assets[2].fileName,
+        },
+      ]);
+    }
+  };
+
   return (
     <BabbContainer>
       <ProfileView>
@@ -126,7 +165,7 @@ const PostBox = ({ isRecording }: { isRecording: boolean }) => {
                   </TimeText>
                 )}
               </ContentText>
-              <IconBtn disabled={isRecording || isFirst}>
+              <IconBtn disabled={isRecording || isFirst} onPress={pickImage}>
                 <Icon.PhotoIcon
                   size={20}
                   color={isRecording || isFirst ? colors.Gray : colors.Black}
