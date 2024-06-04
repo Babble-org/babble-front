@@ -1,6 +1,9 @@
 import styled from "styled-components/native";
 import colors from "../../utils/color";
 import Icon from "../../utils/icon";
+import { useContext } from "react";
+import { FocusContext } from "../../utils/context";
+import { useNavigation } from "@react-navigation/native";
 
 const InfoContainer = styled.View`
   margin: 10px 0;
@@ -34,11 +37,16 @@ const InfoText = styled.Text`
   margin: 0px 10px;
 `;
 
-const BabbInfo = () => {
+const BabbInfo = ({ id, length }: { id: number; length: number }) => {
+  const nav = useNavigation<any>();
   return (
     <InfoContainer>
       <BtnWrap>
-        <Btn>
+        <Btn
+          onPress={() =>
+            nav.navigate("Stack", { screen: "Post", params: { id } })
+          }
+        >
           <Icon.ChatBoxIcon size={25} outline={true} />
         </Btn>
         <Btn>
@@ -46,7 +54,7 @@ const BabbInfo = () => {
         </Btn>
       </BtnWrap>
       <InfoWrap>
-        <InfoText>댓글 0</InfoText>
+        <InfoText>댓글 {length}</InfoText>
         <InfoText>좋아요 0</InfoText>
       </InfoWrap>
     </InfoContainer>

@@ -18,6 +18,7 @@ const InputBox = ({
   onChangeText,
   value,
   isValidate,
+  secureTextEntry,
 }: TextInputProps & { enable?: boolean; isValidate?: boolean }) => {
   const [focused, setFocused] = useState<boolean>(false);
   return (
@@ -26,6 +27,7 @@ const InputBox = ({
       editable={enable === undefined ? true : enable}
       onChangeText={onChangeText}
       value={value}
+      secureTextEntry={secureTextEntry}
       placeholderTextColor={"#a0a0a0"}
       onFocus={() => {
         setFocused(true);

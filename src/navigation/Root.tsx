@@ -19,8 +19,8 @@ const Root = () => {
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        <RootStack.Screen name="BottomTabs" component={BottomTabs} />
         <RootStack.Screen name="Stack" component={Stack} />
+        <RootStack.Screen name="BottomTabs" component={BottomTabs} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

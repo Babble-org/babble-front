@@ -227,6 +227,7 @@ const Register = ({ navigation }: { navigation: any }) => {
         <InputBox
           placeholder={"비밀번호"}
           onChangeText={setPassword}
+          secureTextEntry={true}
           value={password}
           isValidate={passwordValid === 0}
         ></InputBox>
@@ -248,6 +249,7 @@ const Register = ({ navigation }: { navigation: any }) => {
         <InputBox
           placeholder={"비밀번호 확인"}
           onChangeText={setPasswordCheck}
+          secureTextEntry={true}
           value={passwordCheck}
           isValidate={isPasswordMatched}
         ></InputBox>

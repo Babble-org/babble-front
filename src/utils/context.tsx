@@ -13,7 +13,7 @@ export const InsetsContext = createContext<InsetsContextInterface>({
 
 export const FocusContext = createContext<{
   id: string;
-  setId: (id: string) => void;
+  setId: (id: number) => void;
 }>({
   id: "",
   setId: (id) => {},
