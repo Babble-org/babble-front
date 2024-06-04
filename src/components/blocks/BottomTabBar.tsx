@@ -7,6 +7,7 @@ import { Shadow } from "react-native-shadow-2";
 import colors from "../../utils/color";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useNavigation } from "@react-navigation/native";
+import Loader from "../atoms/Loader";
 
 const TabContainer = styled.View`
   width: 100%;
@@ -59,9 +60,9 @@ const BottomTabBar = ({
 }: {
   isPostMode?: boolean;
   setIsPostMode?: (value: boolean) => void;
-  isRecording: boolean;
+  isRecording?: boolean;
   setIsRecording: (value: boolean) => void;
-  sendBtnOnPress: () => void;
+  sendBtnOnPress?: () => void;
 }) => {
   const { insets } = useContext(InsetsContext);
   const [circleValue, setCircleValue] = useState(0);
@@ -97,8 +98,11 @@ const BottomTabBar = ({
     //setCircleValue(0); // 버튼에서 손을 떼면 값 초기화
   };
 
+  const [isSending, setIsSending] = useState(false);
+
   return (
     <Shadow>
+      {isSending && <Loader />}
       <TabContainer insets={insets}>
         {isPostMode ? (
           <LogoBox disabled={isFirst || isRecording}>
@@ -134,7 +138,10 @@ const BottomTabBar = ({
           </MicLogoBox>
         </Shadow>
         {isPostMode ? (
-          <LogoBox disabled={isFirst || isRecording} onPress={sendBtnOnPress}>
+          <LogoBox
+            disabled={isFirst || isRecording}
+            onPress={() => setIsSending(true)}
+          >
             <Icon.SendIcon
               size={35}
               color={isFirst || isRecording ? colors.Gray : colors.Black}

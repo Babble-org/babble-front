@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Icon from "../../utils/icon";
 import WaveLoader from "../atoms/WaveLoader";
 import * as ImagePicker from "expo-image-picker";
+import Loader from "../atoms/Loader";
 
 const BabbContainer = styled.View`
   flex-direction: row;
@@ -51,6 +52,33 @@ const UpperLeftWrap = styled.View`
   flex-direction: row;
 `;
 const IconBtn = styled.TouchableOpacity``;
+const ImageWrap = styled.View`
+  flex-direction: row;
+  margin: 10px 0;
+`;
+const ImageBox = styled.View`
+  width: 70px;
+  height: 70px;
+  margin-right: 5px;
+  border-radius: 10px;
+`;
+const Image = styled.Image`
+  width: 70px;
+  height: 70px;
+  margin-right: 5px;
+  border-radius: 10px;
+`;
+const CloseBtn = styled.TouchableOpacity`
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: ${colors.Gray};
+  justify-content: center;
+  align-items: center;
+`;
 
 const PostBox = ({
   isRecording,
@@ -82,6 +110,7 @@ const PostBox = ({
   const [shadowValue, setShadowValue] = useState(10);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [isFirst, setIsFirst] = useState(true);
+  const [localImageData, setLocalImageData] = useState<any[] | null>(null);
 
   useEffect(() => {
     if (isRecording) {
@@ -115,7 +144,7 @@ const PostBox = ({
       quality: 1,
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (!result.canceled) {
       setImageData([
@@ -135,8 +164,49 @@ const PostBox = ({
           name: result.assets[2].fileName,
         },
       ]);
+      setLocalImageData([
+        {
+          uri: result.assets[0].uri,
+          type: result.assets[0].mimeType,
+          name: result.assets[0].fileName,
+        },
+        result.assets[1] && {
+          uri: result.assets[1].uri,
+          type: result.assets[1].mimeType,
+          name: result.assets[1].fileName,
+        },
+        result.assets[2] && {
+          uri: result.assets[2].uri,
+          type: result.assets[2].mimeType,
+          name: result.assets[2].fileName,
+        },
+      ]);
     }
   };
+
+  const [text, setText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const longText =
+    "에어컨 청소 꼭 하고 쓰세요 작년에 그냥 썼던 거 생각하면 아찔하다 진짜";
+
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      const intervalId = setInterval(() => {
+        setText((prevText) => {
+          setIsTyping(true);
+          if (prevText.length < longText.length) {
+            return longText.slice(0, prevText.length + 1);
+          }
+          clearInterval(intervalId);
+          return prevText;
+        });
+      }, 10000 / longText.length); // 10초 동안 천천히 채웁니다.
+
+      return () => clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 정리합니다.
+    }, 3000); // 3초 후에 시작합니다.
+
+    return () => clearTimeout(delay); // 컴포넌트가 언마운트될 때 타임아웃을 정리합니다.
+  }, []);
 
   return (
     <BabbContainer>
@@ -158,13 +228,34 @@ const PostBox = ({
             <LowerWrap>
               <ContentText>
                 {isRecording ? (
-                  <WaveLoader />
-                ) : (
+                  isTyping ? (
+                    <ContentText>{text}</ContentText>
+                  ) : (
+                    <WaveLoader />
+                  )
+                ) : isFirst ? (
                   <TimeText style={{ fontSize: 14 }}>
                     버튼을 눌러 녹음을 시작하세요.
                   </TimeText>
+                ) : (
+                  <ContentText>{text}</ContentText>
                 )}
               </ContentText>
+              <ImageWrap>
+                {localImageData !== null &&
+                  localImageData.map((data: any, index: number) => {
+                    if (data !== undefined) {
+                      return (
+                        <ImageBox key={index}>
+                          <Image source={{ uri: data.uri }} />
+                          <CloseBtn>
+                            <Icon.TrashIcon size={13} color={colors.White} />
+                          </CloseBtn>
+                        </ImageBox>
+                      );
+                    }
+                  })}
+              </ImageWrap>
               <IconBtn disabled={isRecording || isFirst} onPress={pickImage}>
                 <Icon.PhotoIcon
                   size={20}

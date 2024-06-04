@@ -6,6 +6,9 @@ import Icon from "../../utils/icon";
 import ImageViewer from "./ImageViewer";
 import { useEffect, useState } from "react";
 import NestedComment from "./NestedComment";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../utils/api";
+import { useNavigation } from "@react-navigation/native";
 
 const BabbContainer = styled.View`
   flex-direction: row;
@@ -21,7 +24,7 @@ const Profile = styled.View`
   border-radius: 25px;
   background-color: #000;
 `;
-const ContentView = styled.View`
+const ContentView = styled.Pressable`
   flex: 1;
   margin-left: 10px;
 `;
@@ -74,13 +77,14 @@ const NestedInfoWrap = styled.TouchableOpacity`
 `;
 
 const Comment = ({
+  author_id,
   id,
   nick_name,
   content,
   inserted_at,
   img,
   n_comment,
-}: CommentProps) => {
+}: CommentProps | any) => {
   // 작성시간을 n분전으로 표시하는 함수.
   const elapsedTime = (date: number): string => {
     const start = new Date(date);
@@ -103,17 +107,53 @@ const Comment = ({
 
   const [openNestedComment, setOpenNestedComment] = useState(false);
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["userInfo", author_id],
+    queryFn: () => api.getUserInfo(author_id),
+  });
+
+  const nav = useNavigation<any>();
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [shadowValue, setShadowValue] = useState(10);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (isPlaying) {
+      const id = setInterval(() => {
+        setShadowValue((prev) => {
+          if (prev < 18) {
+            return prev + 0.7;
+          } else {
+            clearInterval(id);
+            return 18;
+          }
+        });
+      }, 1); // 0.1초마다 업데이트
+      setIntervalId(id);
+    } else {
+      if (intervalId) {
+        clearInterval(intervalId);
+        setIntervalId(null);
+      }
+      setShadowValue(10);
+    }
+  }, [isPlaying]);
+
   return (
     <BabbContainer>
       <ProfileView>
         <Profile></Profile>
       </ProfileView>
-      <ContentView>
-        <Shadow style={{ width: "100%", borderRadius: 10 }}>
+      <ContentView onPress={() => setIsPlaying((prev) => !prev)}>
+        <Shadow
+          style={{ width: "100%", borderRadius: 10 }}
+          distance={shadowValue}
+        >
           <ContentWrap>
             <UpperWrap>
               <UpperLeftWrap>
-                <NickNameText>{nick_name}</NickNameText>
+                <NickNameText>{data && data.nick_name}</NickNameText>
                 <TimeText>
                   {elapsedTime(new Date(inserted_at).getTime())}
                 </TimeText>
@@ -128,13 +168,20 @@ const Comment = ({
               <ContentText>{content}</ContentText>
               <ImageViewer img={img}></ImageViewer>
               <InfoWrap>
-                <InfoBtn>
+                <InfoBtn
+                  onPress={() =>
+                    nav.navigate("Stack", {
+                      screen: "Post",
+                      params: { author_id, content, inserted_at },
+                    })
+                  }
+                >
                   <Icon.ChatBoxIcon
                     size={15}
                     outline={true}
                     color={colors.Gray}
                   />
-                  <InfoText>2</InfoText>
+                  <InfoText>{n_comment.length}</InfoText>
                 </InfoBtn>
                 <InfoBtn>
                   <Icon.HeartIcon
@@ -153,15 +200,15 @@ const Comment = ({
           <NestedContainer>
             <NestedComment
               id={n_comment[0].id}
-              nick_name={n_comment[0].nick_name}
-              content={n_comment[0].content}
+              author_id={n_comment[0].author_id}
+              content={n_comment[0].text}
               inserted_at={n_comment[0].inserted_at}
               img={n_comment[0].img}
             ></NestedComment>
             {openNestedComment &&
               n_comment
                 .slice(1)
-                .map((comment) => (
+                .map((comment: any) => (
                   <NestedComment
                     key={comment.id}
                     id={comment.id}
@@ -171,17 +218,18 @@ const Comment = ({
                     img={comment.img}
                   ></NestedComment>
                 ))}
-            {n_comment.length > 1 && !openNestedComment ? (
-              <NestedInfoWrap onPress={() => setOpenNestedComment(true)}>
-                <Icon.DownIcon size={15} color={colors.Gray}></Icon.DownIcon>
-                <InfoText>답글 {n_comment.length - 1}개 더보기</InfoText>
-              </NestedInfoWrap>
-            ) : (
-              <NestedInfoWrap onPress={() => setOpenNestedComment(false)}>
-                <Icon.UpIcon size={15} color={colors.Gray}></Icon.UpIcon>
-                <InfoText>답글 숨기기</InfoText>
-              </NestedInfoWrap>
-            )}
+            {n_comment.length > 1 &&
+              (!openNestedComment ? (
+                <NestedInfoWrap onPress={() => setOpenNestedComment(true)}>
+                  <Icon.DownIcon size={15} color={colors.Gray}></Icon.DownIcon>
+                  <InfoText>답글 {n_comment.length - 1}개 더보기</InfoText>
+                </NestedInfoWrap>
+              ) : (
+                <NestedInfoWrap onPress={() => setOpenNestedComment(false)}>
+                  <Icon.UpIcon size={15} color={colors.Gray}></Icon.UpIcon>
+                  <InfoText>답글 숨기기</InfoText>
+                </NestedInfoWrap>
+              ))}
           </NestedContainer>
         )}
       </ContentView>

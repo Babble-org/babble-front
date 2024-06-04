@@ -17,7 +17,7 @@ const ImageWrap = styled.View`
   width: 100%;
 `;
 
-const ImageViewer = ({ img }: { img: string[] | undefined }) => {
+const ImageViewer = ({ img }: { img: any }) => {
   const [visible, setVisible] = useState(false);
   const width = Dimensions.get("window").width;
   // 전체 화면 넓이에서 프로필 60px, 전체 좌우 마진 40px, 내부 좌우 마진 20px을 뺌.
@@ -27,16 +27,22 @@ const ImageViewer = ({ img }: { img: string[] | undefined }) => {
   }
   const [imgURL, setImgURL] = useState("");
 
-  const imgOnPress = (img: string) => {
+  const imgOnPress = (img: any) => {
     setVisible(true);
-    setImgURL(img);
+    setImgURL(`https://babble-static.among.world/${img.path}`);
   };
 
   if (img.length === 1) {
     return (
       <>
         <ImageBtn onPress={() => imgOnPress(img[0])}>
-          <ImageBox width={fullWidth} height={200} source={{ uri: img[0] }} />
+          <ImageBox
+            width={fullWidth}
+            height={200}
+            source={{
+              uri: `https://babble-static.among.world/${img[0].path}`,
+            }}
+          />
         </ImageBtn>
         <DetailImage visible={visible} setVisible={setVisible} img={imgURL} />
       </>
@@ -51,14 +57,18 @@ const ImageViewer = ({ img }: { img: string[] | undefined }) => {
             <ImageBox
               width={fullWidth / 2 - 5}
               height={200}
-              source={{ uri: img[0] }}
+              source={{
+                uri: `https://babble-static.among.world/${img[0].path}`,
+              }}
             />
           </ImageBtn>
           <ImageBtn onPress={() => imgOnPress(img[1])}>
             <ImageBox
               width={fullWidth / 2 - 5}
               height={200}
-              source={{ uri: img[1] }}
+              source={{
+                uri: `https://babble-static.among.world/${img[1].path}`,
+              }}
             />
           </ImageBtn>
         </ImageWrap>
@@ -76,19 +86,29 @@ const ImageViewer = ({ img }: { img: string[] | undefined }) => {
               <ImageBox
                 width={fullWidth / 2 - 5}
                 height={100}
-                source={{ uri: img[0] }}
+                source={{
+                  uri: `https://babble-static.among.world/${img[0].path}`,
+                }}
               />
             </ImageBtn>
             <ImageBtn onPress={() => imgOnPress(img[1])}>
               <ImageBox
                 width={fullWidth / 2 - 5}
                 height={100}
-                source={{ uri: img[1] }}
+                source={{
+                  uri: `https://babble-static.among.world/${img[1].path}`,
+                }}
               />
             </ImageBtn>
           </ImageWrap>
           <ImageBtn onPress={() => imgOnPress(img[2])}>
-            <ImageBox width={fullWidth} height={100} source={{ uri: img[2] }} />
+            <ImageBox
+              width={fullWidth}
+              height={100}
+              source={{
+                uri: `https://babble-static.among.world/${img[2].path}`,
+              }}
+            />
           </ImageBtn>
         </ImageContainer>
         <DetailImage visible={visible} setVisible={setVisible} img={imgURL} />

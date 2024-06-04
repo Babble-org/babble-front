@@ -5,6 +5,9 @@ import colors from "../../utils/color";
 import SmallButton from "../atoms/SmallButton";
 import Icon from "../../utils/icon";
 import ImageViewer from "./ImageViewer";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../utils/api";
+import { useEffect, useState } from "react";
 
 const BabbContainer = styled.View`
   flex-direction: row;
@@ -20,7 +23,7 @@ const Profile = styled.View`
   border-radius: 25px;
   background-color: #000;
 `;
-const ContentView = styled.View`
+const ContentView = styled.Pressable`
   flex: 1;
   margin-left: 10px;
 `;
@@ -69,11 +72,12 @@ const InfoText = styled.Text`
 `;
 
 const NestedComment = ({
+  author_id,
   nick_name,
   content,
   inserted_at,
   img,
-}: NestedCommentProps) => {
+}: NestedCommentProps | any) => {
   // 작성시간을 n분전으로 표시하는 함수.
   const elapsedTime = (date: number): string => {
     const start = new Date(date);
@@ -94,17 +98,51 @@ const NestedComment = ({
     return `${start.toLocaleDateString()}`;
   };
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["userInfo", author_id],
+    queryFn: () => api.getUserInfo(author_id),
+  });
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [shadowValue, setShadowValue] = useState(10);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (isPlaying) {
+      const id = setInterval(() => {
+        setShadowValue((prev) => {
+          if (prev < 18) {
+            return prev + 0.7;
+          } else {
+            clearInterval(id);
+            return 18;
+          }
+        });
+      }, 1); // 0.1초마다 업데이트
+      setIntervalId(id);
+    } else {
+      if (intervalId) {
+        clearInterval(intervalId);
+        setIntervalId(null);
+      }
+      setShadowValue(10);
+    }
+  }, [isPlaying]);
+
   return (
     <BabbContainer>
       <ProfileView>
         <Profile></Profile>
       </ProfileView>
-      <ContentView>
-        <Shadow style={{ width: "100%", borderRadius: 10 }}>
+      <ContentView onPress={() => setIsPlaying((prev) => !prev)}>
+        <Shadow
+          style={{ width: "100%", borderRadius: 10 }}
+          distance={shadowValue}
+        >
           <ContentWrap>
             <UpperWrap>
               <UpperLeftWrap>
-                <NickNameText>{nick_name}</NickNameText>
+                <NickNameText>{data && data.nick_name}</NickNameText>
                 <TimeText>
                   {elapsedTime(new Date(inserted_at).getTime())}
                 </TimeText>

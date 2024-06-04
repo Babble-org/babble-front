@@ -67,11 +67,11 @@ const BabbMenu = ({ visible, setVisible }: MenuProps) => {
       translateY.value = withTiming(0, { duration: 150 });
     }
     if (modalClose) {
-      translateY.value = withTiming(300, { duration: 100 });
       setTimeout(() => {
         setVisible(false);
         setModalClose(false);
-      }, 50);
+      }, 10);
+      translateY.value = withTiming(300, { duration: 100 });
     }
   }, [visible, translateY, modalClose]);
   //이 계정 정보, 관심 없음, 신고

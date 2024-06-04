@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../../utils/api";
 import { BabbProps } from "../../utils";
 import Babb from "../blocks/Babb";
+import { useEffect, useState } from "react";
 
 const Container = styled.View`
   flex: 1;
@@ -68,7 +69,23 @@ const FooterComponent = styled.View`
   height: 25px;
 `;
 const Profile = () => {
-  const BabbData = useQuery({ queryKey: ["babbs"], queryFn: api.getBabb });
+  const { data: userData } = useQuery({
+    queryKey: ["getProfile"],
+    queryFn: api.getProfile,
+  });
+  const [id, setId] = useState<number>(0);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUserFeed", 1],
+    queryFn: () => api.getUserFeed(1),
+    enabled: !!id,
+  });
+
+  useEffect(() => {
+    if (userData) {
+      setId(userData.id);
+    }
+  }, [userData]);
   return (
     <Container>
       <DetailHeader title="@pgt258258"></DetailHeader>
@@ -90,19 +107,21 @@ const Profile = () => {
       <Separator>
         <FollowBoldText style={{ fontSize: 20 }}>게시물</FollowBoldText>
       </Separator>
-      <ContentContainer
-        data={BabbData.data}
-        renderItem={({ item: babb }: { item: BabbProps }) => (
-          <Babb
-            key={babb.id}
-            nick_name={babb.nick_name}
-            content={babb.content}
-            inserted_at={babb.inserted_at}
-            img={babb.img}
-          />
-        )}
-        ListFooterComponent={() => <FooterComponent />}
-      />
+      {data && (
+        <ContentContainer
+          data={data}
+          renderItem={({ item: babb }: { item: any }) => (
+            <Babb
+              key={babb.author_id}
+              author_id={babb.author_id}
+              content={babb.text}
+              inserted_at={babb.inserted_at}
+              img={babb.images}
+            />
+          )}
+          ListFooterComponent={() => <FooterComponent />}
+        />
+      )}
     </Container>
   );
 };

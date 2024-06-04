@@ -43,7 +43,7 @@ const Login = ({ navigation }: { navigation: any }) => {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData);
+      //console.log(userData);
       AsyncStorage.setItem("access_token", userData.token);
       navigation.replace("BottomTabs", { screen: "Home" });
     }
@@ -59,6 +59,7 @@ const Login = ({ navigation }: { navigation: any }) => {
         <InputBox
           placeholder="비밀번호"
           value={password}
+          secureTextEntry={true}
           onChangeText={setPassword}
         />
         <BtnContainer>
